@@ -1,5 +1,4 @@
 
 ## Reviewer agent
-After building each story, run the reviewer agent:
-`/agent reviewer`
-It checks the diff against the PRD and runs the test suite.
+After building each story, use the `reviewer` subagent (defined in `.claude/agents/reviewer.md`).
+It checks the diff against the PRD at `docs/PRD.md` and runs the test suite.
