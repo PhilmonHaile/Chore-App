@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SubmitButton } from "@/components/SubmitButton";
 import { inviteErrorMessage, isInviteToken } from "@/lib/invites";
 import { requireUser } from "@/lib/supabase/server";
 import { acceptInvite } from "./actions";
@@ -35,9 +36,12 @@ export default async function InvitePage({ params, searchParams }: Props) {
             <h1 className="text-2xl font-semibold">{invite.household_name}</h1>
           </div>
           <form action={acceptInvite.bind(null, token)}>
-            <button type="submit" className="w-full rounded-md bg-black px-3 py-2 text-white">
+            <SubmitButton
+              pendingLabel="Joining…"
+              className="w-full rounded-md bg-black px-3 py-2 text-white disabled:opacity-60"
+            >
               Join household
-            </button>
+            </SubmitButton>
           </form>
           {joinError && (
             <p role="alert" className="text-sm text-red-600">

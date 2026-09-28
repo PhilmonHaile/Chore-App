@@ -31,6 +31,7 @@ describe("toInviteError", () => {
   it("maps database exceptions to error codes", () => {
     expect(toInviteError("expired_invite")).toBe("expired_invite");
     expect(toInviteError("invalid_invite")).toBe("invalid_invite");
+    expect(toInviteError("already_in_household")).toBe("already_in_household");
   });
 
   it("treats anything unexpected as a failed join", () => {
@@ -41,7 +42,7 @@ describe("toInviteError", () => {
 
 describe("inviteErrorMessage", () => {
   it("has a message for every error code", () => {
-    for (const code of ["invalid_invite", "expired_invite", "join_failed"]) {
+    for (const code of ["invalid_invite", "expired_invite", "already_in_household", "join_failed"]) {
       expect(inviteErrorMessage(code)).toBeTruthy();
     }
   });

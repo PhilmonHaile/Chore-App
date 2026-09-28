@@ -14,6 +14,9 @@ export async function createHousehold(formData: FormData) {
     p_name: result.name,
   });
 
+  // Already in a household (e.g. a second click got through): home sends them to it.
+  // 23505 is the one-household-per-user index catching two simultaneous requests.
+  if (error?.message.includes("already_in_household") || error?.code === "23505") redirect("/");
   if (error || !householdId) redirect("/?error=create_failed");
   redirect(`/household/${householdId}`);
 }
