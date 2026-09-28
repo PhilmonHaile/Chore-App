@@ -7,9 +7,20 @@ export type Database = {
   public: {
     Tables: {
       households: {
-        Row: { id: string; name: string; created_by: string | null; created_at: string };
-        Insert: { id?: string; name: string; created_by?: string; created_at?: string };
-        Update: { name?: string };
+        Row: {
+          id: string;
+          name: string;
+          created_by: string | null;
+          created_at: string;
+          /** IANA time zone, e.g. "America/New_York". */
+          timezone: string;
+          /** Admin-set rotation size (2–4); null means use the member count. */
+          rotation_size: number | null;
+          /** Monday of rotation week 1, "YYYY-MM-DD". */
+          rotation_start: string;
+        };
+        Insert: never;
+        Update: never;
         Relationships: [];
       };
       household_members: {
@@ -55,7 +66,13 @@ export type Database = {
         ];
       };
       spaces: {
-        Row: { id: string; household_id: string; name: string; position: number };
+        Row: {
+          id: string;
+          household_id: string;
+          name: string;
+          position: number;
+          rotation_offset: number;
+        };
         Insert: never;
         Update: never;
         Relationships: [];
@@ -68,6 +85,12 @@ export type Database = {
       };
       chore_items: {
         Row: { id: string; household_id: string; chore_id: string; label: string; position: number };
+        Insert: never;
+        Update: never;
+        Relationships: [];
+      };
+      seasonal_leads: {
+        Row: { household_id: string; season_start: string; space_id: string; user_id: string };
         Insert: never;
         Update: never;
         Relationships: [];
@@ -88,6 +111,11 @@ export type Database = {
       };
       is_household_member: { Args: { hid: string }; Returns: boolean };
       is_household_admin: { Args: { hid: string }; Returns: boolean };
+      ensure_seasonal_leads: { Args: { hid: string }; Returns: string };
+      update_household_settings: {
+        Args: { hid: string; p_timezone: string; p_rotation_size: number | null };
+        Returns: undefined;
+      };
     };
     Enums: { cadence: Cadence };
     CompositeTypes: Record<never, never>;

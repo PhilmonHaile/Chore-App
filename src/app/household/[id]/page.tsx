@@ -59,15 +59,24 @@ export default async function HouseholdPage({ params, searchParams }: Props) {
         </ul>
       </section>
 
-      <Link
-        href={`/household/${id}/spaces`}
-        className="flex items-center justify-between rounded-lg border border-neutral-200 px-4 py-3 text-sm"
-      >
-        <span className="font-medium">Rooms &amp; checklists</span>
-        <span aria-hidden className="text-neutral-400">
-          →
-        </span>
-      </Link>
+      <nav className="divide-y divide-neutral-200 rounded-lg border border-neutral-200">
+        {[
+          { href: "chores", label: "My chores" },
+          { href: "spaces", label: "Rooms & checklists" },
+          { href: "settings", label: "Settings" },
+        ].map((link) => (
+          <Link
+            key={link.href}
+            href={`/household/${id}/${link.href}`}
+            className="flex items-center justify-between px-4 py-3 text-sm"
+          >
+            <span className="font-medium">{link.label}</span>
+            <span aria-hidden className="text-neutral-400">
+              →
+            </span>
+          </Link>
+        ))}
+      </nav>
 
       {isAdmin && (
         <InvitePanel householdId={id} supabase={supabase} failed={error === "invite"} />
