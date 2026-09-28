@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { requireUser } from "@/lib/supabase/server";
 import { signOut } from "../../login/actions";
@@ -57,6 +58,16 @@ export default async function HouseholdPage({ params, searchParams }: Props) {
           ))}
         </ul>
       </section>
+
+      <Link
+        href={`/household/${id}/spaces`}
+        className="flex items-center justify-between rounded-lg border border-neutral-200 px-4 py-3 text-sm"
+      >
+        <span className="font-medium">Rooms &amp; checklists</span>
+        <span aria-hidden className="text-neutral-400">
+          →
+        </span>
+      </Link>
 
       {isAdmin && (
         <InvitePanel householdId={id} supabase={supabase} failed={error === "invite"} />

@@ -1,6 +1,7 @@
 // Hand-written to match supabase/migrations. Once the project is linked,
 // regenerate with: npx supabase gen types typescript --linked
 export type MemberRole = "admin" | "member";
+export type Cadence = "weekly" | "monthly" | "seasonal";
 
 export type Database = {
   public: {
@@ -53,8 +54,31 @@ export type Database = {
           },
         ];
       };
+      spaces: {
+        Row: { id: string; household_id: string; name: string; position: number };
+        Insert: never;
+        Update: never;
+        Relationships: [];
+      };
+      chores: {
+        Row: { id: string; household_id: string; space_id: string; cadence: Cadence };
+        Insert: never;
+        Update: never;
+        Relationships: [];
+      };
+      chore_items: {
+        Row: { id: string; household_id: string; chore_id: string; label: string; position: number };
+        Insert: never;
+        Update: never;
+        Relationships: [];
+      };
     };
-    Views: Record<never, never>;
+    Views: {
+      chore_points: {
+        Row: { chore_id: string; household_id: string; points: number };
+        Relationships: [];
+      };
+    };
     Functions: {
       create_household: { Args: { p_name: string }; Returns: string };
       accept_invite: { Args: { p_token: string }; Returns: string };
@@ -65,7 +89,7 @@ export type Database = {
       is_household_member: { Args: { hid: string }; Returns: boolean };
       is_household_admin: { Args: { hid: string }; Returns: boolean };
     };
-    Enums: Record<never, never>;
+    Enums: { cadence: Cadence };
     CompositeTypes: Record<never, never>;
   };
 };
